@@ -1,0 +1,51 @@
+{
+  "name": "@exact-realty/safeid",
+  "version": "1.0.1",
+  "description": "Enumeration-resistant stable IDs",
+  "main": "dist/index.js",
+  "module": "./dist/index.mjs",
+  "exports": {
+    "import": "./dist/index.mjs",
+    "require": "./dist/index.js"
+  },
+  "files": [
+    "dist/**/*"
+  ],
+  "scripts": {
+    "lint": "eslint . --ext .js,.jsx,.ts,.tsx",
+    "lintFix": "eslint . --ext .js,.jsx,.ts,.tsx --fix",
+    "build": "tsc --emitDeclarationOnly --declarationMap && node esbuild.mjs",
+    "test": "mocha",
+    "prepare": "npm run build",
+    "prepublishOnly": "npm test && npm run lint",
+    "preversion": "npm run lint",
+    "postinstall": "exit 0",
+    "version": "npm run lint && git add -A src",
+    "postversion": "git push && git push --tags"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Exact-Realty/ts-safeid.git"
+  },
+  "author": "Exact Realty Limited",
+  "license": "ISC",
+  "devDependencies": {
+    "@types/mocha": "^10.0.1",
+    "@typescript-eslint/eslint-plugin": "^5.57.0",
+    "@typescript-eslint/parser": "^5.57.0",
+    "esbuild": "^0.17.14",
+    "eslint": "^8.36.0",
+    "eslint-config-prettier": "^8.8.0",
+    "eslint-plugin-prettier": "^4.2.1",
+    "mocha": "^10.2.0",
+    "prettier": "^2.8.7",
+    "ts-node": "^10.9.1",
+    "typescript": "^5.0.2"
+  },
+  "keywords": [
+    "uuid",
+    "guid",
+    "enumeration attack",
+    "timing attack"
+  ]
+}
