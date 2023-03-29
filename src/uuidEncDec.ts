@@ -29,10 +29,10 @@ const helper: TIdHelper = {
 			throw new Error('Invalid ID format (expected UUID)');
 		}
 
-		const binaryUuid = new Uint8Array(
+		const binaryUuid = new Uint16Array(
 			clearUuid
 				.replace(/-/g, '')
-				.split(/(?=(?:..)*$)/)
+				.split(/(?=(?:....)*$)/)
 				.map((c) => parseInt(c, 16)),
 		);
 
@@ -45,22 +45,26 @@ const helper: TIdHelper = {
 			);
 		}
 
-		const data = new Uint8Array(buffer);
+		const data = new Uint16Array(buffer);
 
 		const uuid = [
-			data.subarray(0, 4),
-			data.subarray(4, 6),
-			data.subarray(6, 8),
-			data.subarray(8, 10),
-			data.subarray(10, 16),
+			data.subarray(0, 2),
+			data.subarray(2, 3),
+			data.subarray(3, 4),
+			data.subarray(4, 5),
+			data.subarray(5, 8),
 		]
 			.map((v) => {
-				const r = new Array(v.byteLength);
-				for (let i = 0; i !== v.byteLength; i++) {
-					const hi = v[i] >> 4;
+				const r = new Array(v.length);
+				for (let i = 0; i !== v.length; i++) {
+					const hi = (v[i] >> 12) & 0xf;
+					const mh = (v[i] >> 8) & 0xf;
+					const ml = (v[i] >> 4) & 0xf;
 					const lo = v[i] & 0xf;
 					r[i] = String.fromCharCode(
 						(hi | 0x30) + (hi > 9 ? 39 : 0),
+						(mh | 0x30) + (mh > 9 ? 39 : 0),
+						(ml | 0x30) + (ml > 9 ? 39 : 0),
 						(lo | 0x30) + (lo > 9 ? 39 : 0),
 					);
 				}
