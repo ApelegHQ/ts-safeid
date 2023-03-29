@@ -160,8 +160,8 @@ export const setup: {
 				.map((b) => b.charCodeAt(0)),
 		);
 
-		const iv = buffer.slice(0, 12);
-		const ciphertext = buffer.slice(12);
+		const iv = buffer.subarray(0, 12);
+		const ciphertext = buffer.subarray(12);
 
 		const decryptionKey = await globalThis.crypto.subtle.deriveKey(
 			{
@@ -195,12 +195,12 @@ export const setup: {
 			).slice(0, iv.byteLength),
 		);
 
-		const ivEqualsExpectedIv = !(
-			expectedIv.byteLength !== iv.byteLength ||
-			Array.from(iv)
-				.map((v, i) => v ^ expectedIv[i])
-				.reduce((acc, cv) => acc | cv, 0)
-		);
+		const ivEqualsExpectedIv =
+			((expectedIv.byteLength ^ iv.byteLength) |
+				iv
+					.map((v, i) => v ^ expectedIv[i])
+					.reduce((acc, cv) => acc | cv, 0)) ===
+			0;
 
 		if (!ivEqualsExpectedIv) {
 			throw new Error(

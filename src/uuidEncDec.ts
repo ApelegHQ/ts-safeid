@@ -48,17 +48,24 @@ const helper: TIdHelper = {
 		const data = new Uint8Array(buffer);
 
 		const uuid = [
-			data.slice(0, 4),
-			data.slice(4, 6),
-			data.slice(6, 8),
-			data.slice(8, 10),
-			data.slice(10, 16),
+			data.subarray(0, 4),
+			data.subarray(4, 6),
+			data.subarray(6, 8),
+			data.subarray(8, 10),
+			data.subarray(10, 16),
 		]
-			.map((v) =>
-				Array.from(v)
-					.map((c) => c.toString(16).padStart(2, '0'))
-					.join(''),
-			)
+			.map((v) => {
+				const r = new Array(v.byteLength);
+				for (let i = 0; i !== v.byteLength; i++) {
+					const hi = v[i] >> 4;
+					const lo = v[i] & 0xf;
+					r[i] = String.fromCharCode(
+						(hi | 0x30) + (hi > 9 ? 39 : 0),
+						(lo | 0x30) + (lo > 9 ? 39 : 0),
+					);
+				}
+				return r.join('');
+			})
 			.join('-');
 
 		if (!uuidRegex.test(uuid)) {
