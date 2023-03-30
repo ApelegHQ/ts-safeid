@@ -29,7 +29,7 @@ Below there are more concrete examples of these steps.
 ### Installing
 
 ```sh
-npm i -D '@exact-realty/safeid'
+npm i '@exact-realty/safeid'
 ```
 
 ### Getting started

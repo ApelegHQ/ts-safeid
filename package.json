@@ -1,6 +1,6 @@
 {
   "name": "@exact-realty/safeid",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "description": "Enumeration-resistant stable IDs",
   "main": "dist/index.js",
   "module": "./dist/index.mjs",

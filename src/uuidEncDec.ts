@@ -22,6 +22,11 @@ import {
 const uuidRegex =
 	/^(?:00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff|[0-9a-f]{8}-[0-9a-f]{4}-[1-8][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12})$/i;
 
+const textDecoder = new TextDecoder('us-ascii', {
+	['fatal']: true,
+	['ignoreBOM']: true,
+});
+
 const helper: TIdHelper = {
 	[SValidByteLengthRange]: [16, 16],
 	[SToBuffer]: (clearUuid: string) => {
@@ -29,11 +34,14 @@ const helper: TIdHelper = {
 			throw new Error('Invalid ID format (expected UUID)');
 		}
 
-		const binaryUuid = new Uint16Array(
-			clearUuid
-				.replace(/-/g, '')
-				.split(/(?=(?:....)*$)/)
-				.map((c) => parseInt(c, 16)),
+		const binaryUuid = Uint32Array.from(
+			[
+				clearUuid.substring(0, 8),
+				clearUuid.substring(9, 13) + clearUuid.substring(14, 18),
+				clearUuid.substring(19, 23) + clearUuid.substring(24, 28),
+				clearUuid.substring(28, 36),
+			],
+			(v) => parseInt(v, 16),
 		);
 
 		return binaryUuid.buffer;
@@ -45,32 +53,31 @@ const helper: TIdHelper = {
 			);
 		}
 
-		const data = new Uint16Array(buffer);
+		const data = new Uint32Array(buffer);
+		const t = new Uint8Array(8);
+		const uuidA = new Uint8Array(36);
 
-		const uuid = [
-			data.subarray(0, 2),
-			data.subarray(2, 3),
-			data.subarray(3, 4),
-			data.subarray(4, 5),
-			data.subarray(5, 8),
-		]
-			.map((v) => {
-				const r = new Array(v.length);
-				for (let i = 0; i !== v.length; i++) {
-					const hi = (v[i] >> 12) & 0xf;
-					const mh = (v[i] >> 8) & 0xf;
-					const ml = (v[i] >> 4) & 0xf;
-					const lo = v[i] & 0xf;
-					r[i] = String.fromCharCode(
-						(hi | 0x30) + (hi > 9 ? 39 : 0),
-						(mh | 0x30) + (mh > 9 ? 39 : 0),
-						(ml | 0x30) + (ml > 9 ? 39 : 0),
-						(lo | 0x30) + (lo > 9 ? 39 : 0),
-					);
-				}
-				return r.join('');
-			})
-			.join('-');
+		for (let i = 0; i !== data.length; i++) {
+			for (let j = 0; j !== t.length; j++) {
+				t[j] = (data[i] >> ((7 - j) << 2)) & 0xf;
+				t[j] = (t[j] | 0x30) + (t[j] > 9 ? 39 : 0);
+			}
+			uuidA.set(t, i * 8);
+		}
+
+		uuidA.copyWithin(36 - 12, 32 - 12, 32);
+		uuidA.copyWithin(36 - 12 - 1 - 4, 32 - 12 - 4, 32 - 12);
+		uuidA.copyWithin(36 - 12 - 1 - 4 - 1 - 4, 32 - 12 - 4 - 4, 32 - 12 - 4);
+		uuidA.copyWithin(
+			36 - 12 - 1 - 4 - 1 - 4 - 1 - 4,
+			32 - 12 - 4 - 4 - 4,
+			32 - 12 - 4 - 4,
+		);
+
+		// Set dashes ('-')
+		uuidA[8] = uuidA[8 + 1 + 4] = uuidA[8 + 2 + 8] = uuidA[8 + 3 + 12] = 45;
+
+		const uuid = textDecoder.decode(uuidA);
 
 		if (!uuidRegex.test(uuid)) {
 			throw new Error('Invalid UUID after decryption');

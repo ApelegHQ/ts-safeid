@@ -76,7 +76,7 @@ describe('Safe IDs', () => {
 		});
 	});
 
-	describe('Encryption and decription', () => {
+	describe('Encryption and decryption', () => {
 		it(
 			'Static test vectors can be encrypted and decrypted (static key)',
 			testUuids(new Uint8Array(8), [

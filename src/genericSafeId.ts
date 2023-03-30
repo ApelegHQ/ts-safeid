@@ -98,13 +98,13 @@ export const setup: {
 
 		// The IV is derived from the buffer itself to produce stable IDs
 		const iv = new Uint8Array(
-			(
-				await globalThis.crypto.subtle.sign(
-					{ ['name']: 'HMAC' },
-					signKey,
-					buffer,
-				)
-			).slice(0, 12),
+			await globalThis.crypto.subtle.sign(
+				{ ['name']: 'HMAC' },
+				signKey,
+				buffer,
+			),
+			0,
+			12,
 		);
 
 		const encryptionKey = await globalThis.crypto.subtle.deriveKey(
@@ -186,21 +186,19 @@ export const setup: {
 		);
 
 		const expectedIv = new Uint8Array(
-			(
-				await globalThis.crypto.subtle.sign(
-					{ ['name']: 'HMAC' },
-					signKey,
-					plaintext,
-				)
-			).slice(0, iv.byteLength),
+			await globalThis.crypto.subtle.sign(
+				{ ['name']: 'HMAC' },
+				signKey,
+				plaintext,
+			),
+			0,
+			iv.byteLength,
 		);
 
 		const ivEqualsExpectedIv =
-			((expectedIv.byteLength ^ iv.byteLength) |
-				iv
-					.map((v, i) => v ^ expectedIv[i])
-					.reduce((acc, cv) => acc | cv, 0)) ===
-			0;
+			iv
+				.map((v, i) => v ^ expectedIv[i])
+				.reduce((acc, cv) => acc | cv, 0) === 0;
 
 		if (!ivEqualsExpectedIv) {
 			throw new Error(
