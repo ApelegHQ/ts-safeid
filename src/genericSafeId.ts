@@ -44,7 +44,7 @@ const btoau = (data: string | Uint8Array) => {
 	}
 
 	return btoa(data)
-		.replace(/=+$/g, '')
+		.replace(/={1,2}$/g, '')
 		.split('+')
 		.join('-')
 		.split('/')
@@ -211,4 +211,3 @@ export const setup: {
 
 	return { [SEncryptId]: encryptId, [SDecryptId]: decryptId };
 };
-3;

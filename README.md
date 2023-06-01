@@ -1,5 +1,11 @@
 # TypeScript library for encrypted IDs
 
+[![Reliability Rating](https://sonarcloud.io/api/project_badges/measure?project=Exact-Realty_ts-safeid&metric=reliability_rating)](https://sonarcloud.io/summary/new_code?id=Exact-Realty_ts-safeid)
+[![Vulnerabilities](https://sonarcloud.io/api/project_badges/measure?project=Exact-Realty_ts-safeid&metric=vulnerabilities)](https://sonarcloud.io/summary/new_code?id=Exact-Realty_ts-safeid)
+[![Bugs](https://sonarcloud.io/api/project_badges/measure?project=Exact-Realty_ts-safeid&metric=bugs)](https://sonarcloud.io/summary/new_code?id=Exact-Realty_ts-safeid)
+[![Security Rating](https://sonarcloud.io/api/project_badges/measure?project=Exact-Realty_ts-safeid&metric=security_rating)](https://sonarcloud.io/summary/new_code?id=Exact-Realty_ts-safeid)
+[![Maintainability Rating](https://sonarcloud.io/api/project_badges/measure?project=Exact-Realty_ts-safeid&metric=sqale_rating)](https://sonarcloud.io/summary/new_code?id=Exact-Realty_ts-safeid)
+
 ## Motivation
 
 Applications often need to present IDs to users or other applications to refer to concrete resources. For example, an API might provide a user a path like `http://api.example/foo/123e4567-e89b-12d3-a456-426655440000` to fetch a resource of type `foo` named `123e4567-e89b-12d3-a456-426655440000`.

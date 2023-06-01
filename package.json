@@ -1,6 +1,6 @@
 {
   "name": "@exact-realty/safeid",
-  "version": "1.0.4",
+  "version": "1.0.5",
   "description": "Enumeration-resistant stable IDs",
   "main": "dist/index.js",
   "module": "./dist/index.mjs",
@@ -31,16 +31,16 @@
   "license": "ISC",
   "devDependencies": {
     "@types/mocha": "^10.0.1",
-    "@typescript-eslint/eslint-plugin": "^5.57.0",
-    "@typescript-eslint/parser": "^5.57.0",
-    "esbuild": "^0.17.14",
-    "eslint": "^8.36.0",
+    "@typescript-eslint/eslint-plugin": "^5.59.8",
+    "@typescript-eslint/parser": "^5.59.8",
+    "esbuild": "^0.17.19",
+    "eslint": "^8.41.0",
     "eslint-config-prettier": "^8.8.0",
     "eslint-plugin-prettier": "^4.2.1",
     "mocha": "^10.2.0",
-    "prettier": "^2.8.7",
+    "prettier": "^2.8.8",
     "ts-node": "^10.9.1",
-    "typescript": "^5.0.2"
+    "typescript": "^5.1.3"
   },
   "keywords": [
     "uuid",
