@@ -1,4 +1,4 @@
-/* Copyright © 2023 Exact Realty Limited.
+/* Copyright © 2023 Apeleg Limited.
  *
  * Permission to use, copy, modify, and distribute this software for any
  * purpose with or without fee is hereby granted, provided that the above
@@ -15,13 +15,15 @@
 
 import { webcrypto } from 'node:crypto';
 
-import * as m from '../src';
+import * as m from '../src/index.js';
 
 import assert from 'node:assert/strict';
+import { describe, it } from 'node:test';
 
-!globalThis.crypto &&
-	((() => globalThis || { crypto: {} })().crypto =
-		webcrypto as unknown as Crypto);
+if (!globalThis.crypto) {
+	(() => globalThis || { crypto: {} })().crypto =
+		webcrypto as unknown as Crypto;
+}
 
 const testUuids = (key: ArrayBuffer, ids: string[]) => async () => {
 	const f = await m.UuidSafeId(key);

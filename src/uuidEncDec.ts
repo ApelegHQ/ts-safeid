@@ -1,4 +1,4 @@
-/* Copyright © 2023 Exact Realty Limited.
+/* Copyright © 2023 Apeleg Limited.
  *
  * All rights reserved.
  *
@@ -11,13 +11,13 @@
  * PERFORMANCE OF THIS SOFTWARE.
  */
 
-import type { TIdHelper } from './genericSafeId';
+import type { TIdHelper } from './genericSafeId.js';
 import {
 	SFromBuffer,
-	setup,
 	SToBuffer,
 	SValidByteLengthRange,
-} from './genericSafeId';
+	setup,
+} from './genericSafeId.js';
 
 const uuidRegex =
 	/^(?:00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff|[0-9a-f]{8}-[0-9a-f]{4}-[1-8][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12})$/i;

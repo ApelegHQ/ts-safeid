@@ -35,7 +35,7 @@ Below there are more concrete examples of these steps.
 ### Installing
 
 ```sh
-npm i '@exact-realty/safeid'
+npm i '@apeleghq/safeid'
 ```
 
 ### Getting started
@@ -45,13 +45,13 @@ npm i '@exact-realty/safeid'
 In the file you have your configuration, first import this plugin
 
 ```js
-const { SEncryptId, SDecryptId, UuidSafeId } = require('@exact-realty/safeid');
+const { SEncryptId, SDecryptId, UuidSafeId } = require('@apeleghq/safeid');
 ```
 
 Or using ES module syntax:
 
 ```js
-import { SEncryptId, SDecryptId, UuidSafeId } from '@exact-realty/safeid';
+import { SEncryptId, SDecryptId, UuidSafeId } from '@apeleghq/safeid';
 ```
 
 #### Initialising an instance
@@ -92,7 +92,7 @@ Although only UUIDs are supported out of the box, it is possible to define custo
 See the following example (TypeScript) for a custom ID type that consists of a 6-digit to 8-digit number:
 
 ```ts
-import type { TIdHelper } from '@exact-realty/safeid';
+import type { TIdHelper } from '@apeleghq/safeid';
 import {
 	SFromBuffer,
 	setup,
